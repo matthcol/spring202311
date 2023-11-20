@@ -9,15 +9,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 // @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataJpaTest // by default create a H2 db specific for testing: generate DDL create-drop
+@ActiveProfiles("tu")
+@AutoConfigureTestDatabase(replace = NONE)
 class PersonRepositoryTest {
 
     @Autowired

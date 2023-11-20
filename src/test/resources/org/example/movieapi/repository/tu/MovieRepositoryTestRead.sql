@@ -1,0 +1,1 @@
+INSERT INTO movie (title, year) VALUES ('Barbie', 2023);

@@ -1,8 +1,17 @@
 package org.example.movieapi.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+// JPA
 @Entity
+// lombok
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString(of={"id", "title", "year"})
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
