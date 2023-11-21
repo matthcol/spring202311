@@ -3,6 +3,8 @@ package org.example.movieapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 // JPA
 @Entity
 // lombok
@@ -31,4 +33,16 @@ public class Movie {
 
     @Column(length = 300)
     private String posterUri;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Person director;
+
+    @ManyToMany
+    @JoinTable(
+            name="play",
+            inverseJoinColumns = @JoinColumn(name="actor_id"), // to other entity
+            joinColumns = @JoinColumn(name="movie_id") // to this entity
+    )
+    private Set<Person> actors;
 }
