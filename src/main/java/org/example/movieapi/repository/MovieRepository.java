@@ -1,12 +1,18 @@
 package org.example.movieapi.repository;
 
 import org.example.movieapi.entity.Movie;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
+    @Override
+    @EntityGraph("Movie.directorAndActors")
+    Optional<Movie> findById(Integer id);
 
     // NB: return type
     // 0..1 : Optional<T>, T
