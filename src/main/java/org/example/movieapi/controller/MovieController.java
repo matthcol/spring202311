@@ -1,6 +1,8 @@
 package org.example.movieapi.controller;
 
 import org.example.movieapi.entity.Movie;
+import org.example.movieapi.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,34 +14,17 @@ import java.util.List;
 @RequestMapping("/api/movie")
 public class MovieController {
 
+    @Autowired
+    private MovieRepository movieRepository;
+
     @GetMapping
     public List<Movie> getAllMovies(){
-        return List.of(
-                Movie.builder()
-                        .title("The Dark Knight")
-                        .year(2008)
-                        .duration(152)
-                        .build(),
-                Movie.builder()
-                        .title("Unforgiven")
-                        .year(1992)
-                        .duration(130)
-                        .build(),
-                Movie.builder()
-                        .title("Gran Torino")
-                        .year(2008)
-                        .duration(116)
-                        .build()
-        );
+        return movieRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Movie getById(@PathVariable("id") int id){
-        return  Movie.builder()
-                .id(id)
-                .title("Gran Torino")
-                .year(2008)
-                .duration(116)
-                .build();
+    public Movie getById(@PathVariable("id") int id) {
+        return movieRepository.findById(id)
+                .orElseThrow();
     }
 }
