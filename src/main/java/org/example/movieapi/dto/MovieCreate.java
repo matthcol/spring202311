@@ -1,12 +1,13 @@
 package org.example.movieapi.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @ToString
 public class MovieCreate {
     private String title;
