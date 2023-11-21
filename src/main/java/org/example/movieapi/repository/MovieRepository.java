@@ -44,10 +44,10 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findByDirector(String name);
 
     @Query("select m from Movie m join fetch m.director d where d.name like %:name")
-    List<Movie> findByDirector(@Param("name") String name, Sort sort);
+    List<Movie> findByDirector2(@Param("name") String name, Sort sort);
 
     @Query("select m from Movie m join fetch m.director d where d.name like %:name order by m.year")
-    List<Movie> findByDirector(@Param("name") String name, Pageable pageable);
+    List<Movie> findByDirector3(@Param("name") String name, Pageable pageable);
 
     // query returning non entity data
     // - Object[]

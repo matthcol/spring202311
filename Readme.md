@@ -15,5 +15,7 @@
 https://howtodoinjava.com/spring-boot/execute-sql-scripts-on-startup/
 #### Query by Example
 https://docs.spring.io/spring-data/jpa/reference/repositories/query-by-example.html
+#### Add custom repo with concrete code
+https://docs.spring.io/spring-data/jpa/reference/repositories/custom-implementations.html
 
 

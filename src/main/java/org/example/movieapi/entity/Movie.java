@@ -3,6 +3,7 @@ package org.example.movieapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 // JPA
@@ -67,5 +68,6 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name="actor_id"), // to other entity
             joinColumns = @JoinColumn(name="movie_id") // to this entity
     )
-    private Set<Person> actors;
+    @Builder.Default
+    private Set<Person> actors = new HashSet<>();
 }
