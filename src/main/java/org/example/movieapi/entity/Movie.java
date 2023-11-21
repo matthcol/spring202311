@@ -6,6 +6,13 @@ import lombok.*;
 import java.util.Set;
 
 // JPA
+@NamedEntityGraph(
+        name="Movie.directorAndActors",
+        attributeNodes = {
+                @NamedAttributeNode("director"),
+                @NamedAttributeNode("actors")
+        }
+)
 @Entity
 // lombok
 @Getter
@@ -34,11 +41,11 @@ public class Movie {
     @Column(length = 300)
     private String posterUri;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // by default eager
     @JoinColumn(name = "director_id")
     private Person director;
 
-    @ManyToMany
+    @ManyToMany // Lazy by default
     @JoinTable(
             name="play",
             inverseJoinColumns = @JoinColumn(name="actor_id"), // to other entity

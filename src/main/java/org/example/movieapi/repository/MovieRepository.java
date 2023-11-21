@@ -27,7 +27,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findByTitleContainingIgnoreCaseAndYearBetween(String titlePart, int year1, int year2);
 
     // JPQL/HQL query
-    // params: ?1 ?2 ... or :name, :year
-    @Query("select m from Movie m join m.director d where d.name like %:name")
+    // params: ?1 ?2 ... or :name, :year with/without @Param
+    @Query("select m from Movie m join fetch m.director d where d.name like %:name")
     List<Movie> findByDirector(String name);
 }
