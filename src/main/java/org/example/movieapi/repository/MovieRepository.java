@@ -1,12 +1,18 @@
 package org.example.movieapi.repository;
 
+import jakarta.persistence.NamedQuery;
+import org.example.movieapi.dto.StatsByDirector;
 import org.example.movieapi.entity.Movie;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
@@ -34,6 +40,19 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     // JPQL/HQL query
     // params: ?1 ?2 ... or :name, :year with/without @Param
-    @Query("select m from Movie m join fetch m.director d where d.name like %:name")
+    @Query("select m from Movie m join fetch m.director d where d.name like %:name order by m.year")
     List<Movie> findByDirector(String name);
+
+    @Query("select m from Movie m join fetch m.director d where d.name like %:name")
+    List<Movie> findByDirector(@Param("name") String name, Sort sort);
+
+    @Query("select m from Movie m join fetch m.director d where d.name like %:name order by m.year")
+    List<Movie> findByDirector(@Param("name") String name, Pageable pageable);
+
+    // query returning non entity data
+    // - Object[]
+    // - Tuple (JPA)
+    // - DTO custom object: class or record (JPA), interface (Spring)
+
+    List<StatsByDirector> statsByDirectorYearRange(int year1, int  year2);
 }

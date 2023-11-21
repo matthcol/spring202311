@@ -6,6 +6,22 @@ import lombok.*;
 import java.util.Set;
 
 // JPA
+@NamedQuery(
+        name="Movie.statsByDirectorYearRange",
+        query="""
+            select 
+                d.id as directorId,
+                d.name as directorName,
+                d.birthdate as directorBirthdate, 
+                count(m.id) as movieCount, 
+                coalesce(sum(m.duration),0) as totalDuration, 
+                min(m.year) as firstYear, 
+                max(m.year) as lastYear
+            from Movie m join m.director d
+            where m.year between :year1 and :year2
+            group by d.id, d.name, d.birthdate
+            """
+)
 @NamedEntityGraph(
         name="Movie.directorAndActors",
         attributeNodes = {

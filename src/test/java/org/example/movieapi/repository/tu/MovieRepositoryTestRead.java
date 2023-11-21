@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import org.example.movieapi.entity.Movie;
 import org.example.movieapi.entity.Person;
 import org.example.movieapi.repository.MovieRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
@@ -88,6 +88,84 @@ class MovieRepositoryTestRead {
             logger.info("actors: " + movieRead.getActors());
         });
 
+    }
+
+    @Test
+    void testStatByDirectorYearRange(){
+        // given:
+        var director1 = new Person("Christopher Nolan");
+        var director2 = new Person("Clint Eastwood");
+        Stream.of(director1, director2)
+                .forEach(entityManager::persist);
+        var movies = List.of(
+                Movie.builder()
+                        .title("Tenet")
+                        .year(2020)
+                        .duration(150)
+                        .director(director1)
+                        .build(),
+                Movie.builder()
+                        .title("Oppenheimer")
+                        .year(2023)
+                        .duration(180)
+                        .director(director1)
+                        .build(),
+                Movie.builder()
+                        .title("Interstellar")
+                        .year(2014)
+                        .duration(169)
+                        .director(director1)
+                        .build(),
+                Movie.builder()
+                        .title("Inception")
+                        .year(2010)
+                        .duration(148)
+                        .director(director1)
+                        .build(),
+                Movie.builder()
+                        .title("The Dark Knight")
+                        .year(2008)
+                        .duration(152)
+                        .director(director1)
+                        .build(),
+                Movie.builder()
+                        .title("Unforgiven")
+                        .year(1992)
+                        .duration(130)
+                        .director(director2)
+                        .build(),
+                Movie.builder()
+                        .title("Gran Torino")
+                        .year(2008)
+                        .duration(116)
+                        .director(director2)
+                        .build(),
+                Movie.builder()
+                        .title("High Plain Drifter")
+                        .year(1973)
+                        .duration(105)
+                        .director(director2)
+                        .build(),
+                Movie.builder()
+                        .title("The Outlaw Josey Wales")
+                        .year(1976)
+                        .duration(135)
+                        .director(director2)
+                        .build()
+        );
+        movies.forEach(entityManager::persist);
+        entityManager.flush();
+        entityManager.clear();
+        // when:
+        var stats = movieRepository.statsByDirectorYearRange(1975, 2020);
+        logger.info("Movies read from database: " + stats.size());
+        stats.forEach(stat -> logger.info(
+                "director: " + stat.getDirectorName()
+                + " ; count: " + stat.getMovieCount()
+                + " ; total duration: " + stat.getTotalDuration()
+                + " ; first year: " + stat.getFirstYear()
+                + " ; last year: " + stat.getLastYear()
+        ));
     }
 
 }
