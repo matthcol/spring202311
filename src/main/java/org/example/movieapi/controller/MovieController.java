@@ -39,4 +39,28 @@ public class MovieController {
     }
 
     // PUT, PATCH, DELETE
+    @PutMapping
+    public MovieSimple update(@RequestBody MovieSimple movie) {
+        return movieService.update(movie)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "movie not found"
+                ));
+    }
+
+    @PatchMapping("/{idMovie}/setDirector/{idDirector}")
+    public MovieDetail setDirector(int idMovie, int idDirector){
+        return movieService.setDirector(idMovie, idDirector)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "movie or director not found"
+                ));
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(int id) {
+        if (!movieService.delete(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "movie or director not found"
+            );
+        }
+    }
 }
