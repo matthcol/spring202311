@@ -46,4 +46,24 @@ public class MovieServiceJpa implements MovieService {
                 MovieSimple.class
         );
     } // valid transaction here if no exception
+
+    @Override
+    public Optional<MovieSimple> update(MovieSimple movie) {
+        return  movieRepository.findById(movie.getId())
+            .map(movieEntity -> {
+                modelMapper.map(movie, movieEntity);
+                movieRepository.flush();
+                return modelMapper.map(movieEntity, MovieSimple.class)
+            });
+    }
+
+    @Override
+    public Optional<MovieDetail> setDirector(int idMovie, int idDirector) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
+    }
 }

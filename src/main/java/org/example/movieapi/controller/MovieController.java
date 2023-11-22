@@ -37,4 +37,6 @@ public class MovieController {
     public MovieSimple add(@RequestBody MovieCreate movie) {
         return movieService.add(movie);
     }
+
+    // PUT, PATCH, DELETE
 }
