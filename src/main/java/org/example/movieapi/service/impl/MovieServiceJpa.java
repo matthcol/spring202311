@@ -75,6 +75,12 @@ public class MovieServiceJpa implements MovieService {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return movieRepository.findById(id)
+                        .map(movieEntity -> {
+                            movieRepository.deleteById(id);
+                            movieRepository.flush();
+                            return true;
+                        })
+                .orElse(false);
     }
 }
