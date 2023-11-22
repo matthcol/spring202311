@@ -31,6 +31,10 @@ import java.util.Set;
         }
 )
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(
+        name="uniq_movie_title_year",
+        columnNames = {"title", "year"})
+)
 // lombok
 @Getter
 @Setter

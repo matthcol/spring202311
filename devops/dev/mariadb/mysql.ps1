@@ -1,0 +1,1 @@
+docker exec -it mariadbmovie mysql -u movie -ppassword dbmovie
