@@ -5,6 +5,7 @@ import org.example.movieapi.dto.MovieDetail;
 import org.example.movieapi.dto.MovieSimple;
 import org.example.movieapi.entity.Movie;
 import org.example.movieapi.repository.MovieRepository;
+import org.example.movieapi.repository.PersonRepository;
 import org.example.movieapi.service.MovieService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class MovieServiceJpa implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -53,13 +57,20 @@ public class MovieServiceJpa implements MovieService {
             .map(movieEntity -> {
                 modelMapper.map(movie, movieEntity);
                 movieRepository.flush();
-                return modelMapper.map(movieEntity, MovieSimple.class)
+                return modelMapper.map(movieEntity, MovieSimple.class);
             });
     }
 
     @Override
     public Optional<MovieDetail> setDirector(int idMovie, int idDirector) {
-        return Optional.empty();
+        return movieRepository.findById(idMovie)
+                .flatMap(movieEntity -> personRepository.findById(idDirector)
+                        .map(directorEntity -> {
+                            movieEntity.setDirector(directorEntity);
+                            movieRepository.flush();
+                            return modelMapper.map(movieEntity, MovieDetail.class);
+                        })
+                );
     }
 
     @Override
