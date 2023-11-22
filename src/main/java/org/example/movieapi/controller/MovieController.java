@@ -1,5 +1,6 @@
 package org.example.movieapi.controller;
 
+import jakarta.validation.Valid;
 import org.example.movieapi.dto.MovieCreate;
 import org.example.movieapi.dto.MovieDetail;
 import org.example.movieapi.dto.MovieSimple;
@@ -34,13 +35,13 @@ public class MovieController {
     }
 
     @PostMapping
-    public MovieSimple add(@RequestBody MovieCreate movie) {
+    public MovieSimple add(@Valid @RequestBody MovieCreate movie) {
         return movieService.add(movie);
     }
 
-    // PUT, PATCH, DELETE
+
     @PutMapping
-    public MovieSimple update(@RequestBody MovieSimple movie) {
+    public MovieSimple update(@Valid @RequestBody MovieSimple movie) {
         return movieService.update(movie)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "movie not found"

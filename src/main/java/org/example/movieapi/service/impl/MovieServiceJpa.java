@@ -10,10 +10,13 @@ import org.example.movieapi.service.MovieService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+// Article: https://gayerie.dev/docs/spring/spring/spring_tx.html
+@Transactional
 @Service
 public class MovieServiceJpa implements MovieService {
 
@@ -27,6 +30,7 @@ public class MovieServiceJpa implements MovieService {
     private ModelMapper modelMapper;
     // https://modelmapper.org/user-manual/
 
+    @Transactional(readOnly = true)
     @Override
     public List<MovieSimple> findAll() {
         return movieRepository.findAll()
@@ -35,6 +39,7 @@ public class MovieServiceJpa implements MovieService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<MovieDetail> findById(int id) {
         return movieRepository.findById(id)
@@ -49,14 +54,14 @@ public class MovieServiceJpa implements MovieService {
                 movieEntity,
                 MovieSimple.class
         );
-    } // valid transaction here if no exception
+    } // COMMIT: valid transaction here if no exception else ROLLBACK
 
     @Override
     public Optional<MovieSimple> update(MovieSimple movie) {
         return  movieRepository.findById(movie.getId())
             .map(movieEntity -> {
                 modelMapper.map(movie, movieEntity);
-                movieRepository.flush();
+                movieRepository.saveAndFlush(movieEntity);
                 return modelMapper.map(movieEntity, MovieSimple.class);
             });
     }
@@ -67,7 +72,7 @@ public class MovieServiceJpa implements MovieService {
                 .flatMap(movieEntity -> personRepository.findById(idDirector)
                         .map(directorEntity -> {
                             movieEntity.setDirector(directorEntity);
-                            movieRepository.flush();
+                            movieRepository.saveAndFlush(movieEntity);
                             return modelMapper.map(movieEntity, MovieDetail.class);
                         })
                 );
