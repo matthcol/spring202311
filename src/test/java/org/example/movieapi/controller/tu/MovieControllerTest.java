@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MovieController.class)
+@WithMockUser
 class MovieControllerTest {
 
     final static String BASE_URI = "/api/movie";
@@ -166,4 +168,13 @@ class MovieControllerTest {
                 .should()
                 .findById(id);
     }
+
+    // NB: for other HTTP methods @WithMockUser is not not enough
+    //  add crsf handling
+    //         mockMvc.perform(post(BASE_URL)
+    //                        .with(csrf())
+    //                        .accept(MediaType.APPLICATION_JSON)
+    //                        .contentType(MediaType.APPLICATION_JSON)
+    //                        .content(JSON_CONTENT)
+    //                )
 }

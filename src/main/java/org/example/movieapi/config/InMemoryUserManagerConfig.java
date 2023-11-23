@@ -9,7 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
- * InMemoryUserManagerConfig
+ * InMemoryUserManagerConfig: for dev only
+ * TODO: create userservice + repo or alternative auth solution
  */
 @Configuration
 public class InMemoryUserManagerConfig {

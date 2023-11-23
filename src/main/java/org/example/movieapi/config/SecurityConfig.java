@@ -32,6 +32,13 @@ public class SecurityConfig {
                     .requestMatchers(
                         mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/**")
                     ).hasRole("USER_ROLE")
+                    .requestMatchers(
+                        mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/**"),
+                        mvcMatcherBuilder.pattern(HttpMethod.PUT, "/api/**"),
+                        mvcMatcherBuilder.pattern(HttpMethod.PATCH, "/api/**"),
+                        mvcMatcherBuilder.pattern(HttpMethod.DELETE, "/api/**")
+
+                    ).hasRole("ADMIN_ROLE")
                     .anyRequest().denyAll()
             )
             // authentication
