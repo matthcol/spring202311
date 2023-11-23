@@ -9,6 +9,7 @@ import org.example.movieapi.repository.PersonRepository;
 import org.example.movieapi.service.MovieService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 // Article: https://gayerie.dev/docs/spring/spring/spring_tx.html
 @Transactional
 @Service
+@Profile("default")
 public class MovieServiceJpa implements MovieService {
 
     @Autowired

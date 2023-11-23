@@ -83,7 +83,19 @@ curl -X 'POST' \
   }'
 
 
+ curl -X 'POST' \
+   'http://localhost:8081/api/movie' \
+   -H 'accept: */*' \
+   -H 'Content-Type: application/json' \
+   -d '{
+   "title": "  ",
+   "duration": 30
+ }'
 
+# bad setDirector
+curl -X 'PATCH' \
+  'http://localhost:8081/api/movie/{idMovie}/setDirector/{idDirector}?idMovie=0&idDirector=1' \
+  -H 'accept: */*'
 
 
 

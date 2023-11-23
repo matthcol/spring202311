@@ -38,6 +38,9 @@ java -jar .\target\movieapi-1.0.jar --spring.profiles.active=maria
 # with default profile(s)
 mvn spring-boot:run
 
+# with a specific pom.xml
+mvn -f pom-nodev.xml spring-boot:run
+
 # with custom profile(s) with env variable
 ${env:spring.profiles.active}='mariaapp'
 mvn spring-boot:run

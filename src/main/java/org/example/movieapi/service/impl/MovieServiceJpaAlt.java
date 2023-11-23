@@ -4,11 +4,13 @@ import org.example.movieapi.dto.MovieCreate;
 import org.example.movieapi.dto.MovieDetail;
 import org.example.movieapi.dto.MovieSimple;
 import org.example.movieapi.entity.Movie;
+import org.example.movieapi.exception.NotFoundException;
 import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.repository.PersonRepository;
 import org.example.movieapi.service.MovieService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,6 +21,7 @@ import java.util.Optional;
 // Article: https://gayerie.dev/docs/spring/spring/spring_tx.html
 @Transactional
 @Service
+@Profile("alt")
 public class MovieServiceJpaAlt implements MovieService {
 
     @Autowired
@@ -69,10 +72,13 @@ public class MovieServiceJpaAlt implements MovieService {
 
     @Override
     public Optional<MovieDetail> setDirector(int idMovie, int idDirector) {
+        // TODO: find both entity before throwing exception
         var optMovieEntity = movieRepository.findById(idMovie);
-        var movieEntity = optMovieEntity.orElseThrow(() -> new RuntimeException());
+        var movieEntity = optMovieEntity.orElseThrow(
+                () -> new NotFoundException("Entity not found", "movie", idMovie));
         var optDirectorEntity = personRepository.findById(idDirector);
-        var directorEntity = optDirectorEntity.orElseThrow(() -> new RuntimeException());
+        var directorEntity = optDirectorEntity.orElseThrow(
+                () -> new NotFoundException("Entity not found (director)", "person", idDirector));
         movieEntity.setDirector(directorEntity);
         movieRepository.saveAndFlush(movieEntity);
         return Optional.of(modelMapper.map(movieEntity, MovieDetail.class));

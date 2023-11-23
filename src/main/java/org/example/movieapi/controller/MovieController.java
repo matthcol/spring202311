@@ -8,6 +8,7 @@ import org.example.movieapi.entity.Movie;
 import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MovieController {
 
     @Autowired
+    // @Qualifier("movieServiceJpaAlt") // choose service impl
     private MovieService movieService;
 
     @GetMapping
