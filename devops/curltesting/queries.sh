@@ -4,6 +4,12 @@ curl -X 'GET' 'http://localhost:8081/api/movie'
 # get movie by id
 curl -X 'GET' 'http://localhost:8081/api/movie/1'
 
+# search
+curl  -X 'GET'  'http://localhost:8081/api/movie/search?t=barbie'
+curl  -X 'GET'  'http://localhost:8081/api/movie/search?t=barbie&y1=2023&y2=2055'
+curl  -X 'GET'  'http://localhost:8081/api/movie/search?t=barbie&y1=2023&y2=aaa'
+
+
 # add movie
  curl -X 'POST' \
    'http://localhost:8081/api/movie' \
@@ -14,6 +20,16 @@ curl -X 'GET' 'http://localhost:8081/api/movie/1'
    "year": 2022,
    "duration": 120
  }'
+
+  curl -v -X 'POST' \
+    'http://localhost:8081/api/movie' \
+    -H 'accept: */*' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "title": "The Batman 3",
+    "year": 2033,
+    "duration": 120
+  }'
 
  #update
  curl -X 'PUT' \
@@ -33,6 +49,9 @@ curl -X 'GET' 'http://localhost:8081/api/movie/1'
  curl -X 'DELETE' \
    'http://localhost:8081/api/movie/{id}?id=1' \
    -H 'accept: */*'
+
+curl -X 'DELETE'  'http://localhost:8081/api/movie/{id}?id=5'
+
 
 # add person
  curl -X 'POST' \

@@ -7,6 +7,8 @@ import org.example.movieapi.dto.MovieSimple;
 import org.example.movieapi.entity.Movie;
 import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.service.MovieService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movie")
 public class MovieController {
+
+    private Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     // @Qualifier("movieServiceJpaAlt") // choose service impl
@@ -36,7 +40,21 @@ public class MovieController {
               ));
     }
 
+    // methode with query param: name, required, defaultValue
+    @GetMapping("/search")
+    public List<MovieSimple> search(
+            @RequestParam(name = "t", required = false) String title,
+            @RequestParam(name = "y1", required = false) Integer year1,
+            @RequestParam(name = "y2", required = false) Integer year2
+    ){
+        logger.debug("search with params: title={}, year1={}, year2={}",
+                title, year1, year2);
+        // TODO: add in service and call it
+        return List.of();
+    }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public MovieSimple add(@Valid @RequestBody MovieCreate movie) {
         return movieService.add(movie);
     }
@@ -58,6 +76,7 @@ public class MovieController {
                 ));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void delete(int id) {
         if (!movieService.delete(id)) {
