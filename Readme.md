@@ -26,6 +26,10 @@ https://gayerie.dev/docs/spring/spring/spring_tx.html
 - https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
 - https://www.baeldung.com/exception-handling-for-rest-with-spring
 
+## Build project
+### Maven
+
+
 ## Run
 ### CLI
 ```
@@ -44,6 +48,8 @@ mvn -f pom-nodev.xml spring-boot:run
 # with custom profile(s) with env variable
 ${env:spring.profiles.active}='mariaapp'
 mvn spring-boot:run
+
+mvn spring-boot:run -Dspring-boot.run.profiles=alt
 ```
 
 
