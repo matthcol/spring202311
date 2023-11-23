@@ -52,6 +52,11 @@ mvn spring-boot:run
 mvn spring-boot:run -Dspring-boot.run.profiles=alt
 ```
 
+## Batch
+https://docs.spring.io/spring-batch/reference/index.html
+
+## Messaging
+https://docs.spring.io/spring-boot/docs/current/reference/html/messaging.html
 
 
 
