@@ -5,6 +5,7 @@ import org.example.movieapi.dto.MovieCreate;
 import org.example.movieapi.dto.MovieDetail;
 import org.example.movieapi.dto.MovieSimple;
 import org.example.movieapi.entity.Movie;
+import org.example.movieapi.jms.MessageSender;
 import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;

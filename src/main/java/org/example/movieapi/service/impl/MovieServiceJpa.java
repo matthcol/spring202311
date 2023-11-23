@@ -4,6 +4,7 @@ import org.example.movieapi.dto.MovieCreate;
 import org.example.movieapi.dto.MovieDetail;
 import org.example.movieapi.dto.MovieSimple;
 import org.example.movieapi.entity.Movie;
+import org.example.movieapi.jms.MessageSender;
 import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.repository.PersonRepository;
 import org.example.movieapi.service.MovieService;
@@ -30,6 +31,10 @@ public class MovieServiceJpa implements MovieService {
     private ModelMapper modelMapper;
     // https://modelmapper.org/user-manual/
 
+    @Autowired
+    private MessageSender messageSender;
+
+
     @Transactional(readOnly = true)
     @Override
     public List<MovieSimple> findAll() {
@@ -50,6 +55,7 @@ public class MovieServiceJpa implements MovieService {
     public MovieSimple add(MovieCreate movie) {
         Movie movieEntity = modelMapper.map(movie, Movie.class);
         movieRepository.saveAndFlush(movieEntity); // SQL: insert now
+        messageSender.send("movie added: " + movie);
         return modelMapper.map(
                 movieEntity,
                 MovieSimple.class
