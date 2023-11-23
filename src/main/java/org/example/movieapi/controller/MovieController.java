@@ -69,7 +69,10 @@ public class MovieController {
     }
 
     @PatchMapping("/{idMovie}/setDirector/{idDirector}")
-    public MovieDetail setDirector(int idMovie, int idDirector){
+    public MovieDetail setDirector(
+            @PathVariable("idMovie") int idMovie,
+            @PathVariable("idDirector") int idDirector
+    ){
         return movieService.setDirector(idMovie, idDirector)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "movie or director not found"
@@ -78,7 +81,7 @@ public class MovieController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public void delete(int id) {
+    public void delete(@PathVariable("id") int id) {
         if (!movieService.delete(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "movie or director not found"
